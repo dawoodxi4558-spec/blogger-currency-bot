@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -26,7 +28,7 @@ jobs:
       - name: Commit and Push Data Changes
         run: |
           git config --global user.name "Blogger Bot Server"
-          git config --global user.name "bot@github.com"
+          git config --global user.email "bot@github.com"
           git add data.json
           git commit -m "Update Live Currency Data [Automated]" || exit 0
           git push
