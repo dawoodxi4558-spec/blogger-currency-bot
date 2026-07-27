@@ -12,12 +12,12 @@ jobs:
       contents: write
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
 
       - name: Install Dependencies
         run: npm install
@@ -25,11 +25,9 @@ jobs:
       - name: Run Bot Script
         run: node bot.js
 
-      - name: Commit and Push Data Changes
-        run: |
-          git config --global user.name "Blogger Bot Server"
-          git config --global user.email "bot@github.com"
-          git add data.json
-          git commit -m "Update Live Currency Data [Automated]" || exit 0
-          git push
+      - name: Upload Secure Currency Data
+        uses: actions/upload-artifact@v4
+        with:
+          name: live-data
+          path: data.json
           
