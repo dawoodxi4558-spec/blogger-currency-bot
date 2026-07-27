@@ -1,0 +1,33 @@
+name: Update Secure Currency Data
+
+on:
+  schedule:
+    - cron: '0 * * * *'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Bot Script
+        run: node bot.js
+
+      - name: Commit and Push Data Changes
+        run: |
+          git config --global user.name "Blogger Bot Server"
+          git config --global user.name "bot@github.com"
+          git add data.json
+          git commit -m "Update Live Currency Data [Automated]" || exit 0
+          git push
+          
